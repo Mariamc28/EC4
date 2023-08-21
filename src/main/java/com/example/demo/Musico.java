@@ -12,8 +12,6 @@ public class Musico {
 	private @Id @GeneratedValue Long id;
 	private String nombre;
 
-	private Musico() {}
-
 	public Musico(String nombre) {
 		this.nombre = nombre;
 	}

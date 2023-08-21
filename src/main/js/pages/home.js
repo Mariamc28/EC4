@@ -5,7 +5,7 @@ const {Link} = require('react-router-dom');
 class PageHome extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { instrumentos: [], musicos: [], bandas: [] };
+		this.state = { instrumentos: [], musicos: [], editorial: [] };
 	}
 	componentDidMount() {
 		client({ method: 'GET', path: '/api/instrumentos' }).done(response => {
@@ -14,8 +14,8 @@ class PageHome extends React.Component {
 		client({ method: 'GET', path: '/api/musicos' }).done(response => {
 			this.setState({ musicos: response.entity._embedded.musicos });
 		});
-		client({ method: 'GET', path: '/api/bandas' }).done(response => {
-			this.setState({ bandas: response.entity._embedded.bandas });
+		client({ method: 'GET', path: '/api/editorial' }).done(response => {
+			this.setState({ editorial: response.entity._embedded.editorial });
 		});
 	}
 	render() {
@@ -40,10 +40,10 @@ class PageHome extends React.Component {
 					</div>
 
 					<div style={{"width": "calc(100%/3)"}}>
-						<Titulo entidad="Banda" emoji="👩🏼‍🎤" />
-						<BandaList bandas={this.state.bandas} />
+						<Titulo entidad="Editorial" emoji="👩🏼‍🎤" />
+						<EditorialList bandas={this.state.editorial} />
 						<br />
-						<Link to="/nueva-banda">Nueva Banda</Link>
+						<Link to="/nueva-editorial">Nueva Editorial</Link>
 					</div>
 
 				</div>
@@ -105,10 +105,10 @@ class MusicoList extends React.Component {
 		)
 	}
 }
-class BandaList extends React.Component {
+class EditorialList extends React.Component {
 	render() {
-		const bandas = this.props.bandas.map(banda =>
-			<Banda key={banda._links.self.href} banda={banda} />
+		const editorial = this.props.editorial.map(banda =>
+			<Editorial key={editorial._links.self.href} editorial={editorial} />
 		);
 		return (
 			<table border="1">
@@ -117,7 +117,7 @@ class BandaList extends React.Component {
 						<th>Nombre</th>
 						<th>Acciones</th>
 					</tr>
-					{bandas}
+					{editorial}
 				</tbody>
 			</table>
 		)
@@ -152,14 +152,14 @@ class Musico extends React.Component {
 		)
 	}
 }
-class Banda extends React.Component {
+class Editorial extends React.Component {
 	render() {
-		const id = this.props.banda._links.self.href.split("/").slice(-1);
+		const id = this.props.editorial._links.self.href.split("/").slice(-1);
 		return (
 			<tr>
-				<td>{this.props.banda.nombre}</td>
+				<td>{this.props.editorial.nombre}</td>
 				<td>
-					<Link to={`/ver-banda/${id}`}>Ver</Link>
+					<Link to={`/ver-editorial/${id}`}>Ver</Link>
 				</td>
 			</tr>
 		)
